@@ -81,3 +81,11 @@ def test_get_all_known_urls(conn):
     known = get_all_known_urls(conn)
     assert "https://site-a.com" in known
     assert "https://site-b.com" in known
+
+
+def test_insert_preview_product_rejects_unknown_site(conn):
+    with pytest.raises(Exception):
+        insert_preview_product(conn, "https://unknown.com", {
+            "name": "x", "image_url": None, "price_eur": 9.0,
+            "category": "t-shirts", "product_url": "https://unknown.com/p/1"
+        })

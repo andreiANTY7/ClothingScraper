@@ -49,6 +49,6 @@ CREATE TABLE IF NOT EXISTS site_preview_products (
     image_url TEXT,
     price_eur REAL,
     category TEXT,
-    product_url TEXT UNIQUE,
+    product_url TEXT NOT NULL UNIQUE,
     FOREIGN KEY(site_url) REFERENCES discovered_sites(url)
 );
