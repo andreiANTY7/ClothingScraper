@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS ratings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    product_id INTEGER NOT NULL REFERENCES products(id),
+    product_id INTEGER UNIQUE NOT NULL REFERENCES products(id),
     rating TEXT NOT NULL CHECK(rating IN ('like','dislike','skip')),
     rated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

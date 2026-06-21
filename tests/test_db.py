@@ -91,3 +91,11 @@ def test_update_product_score(conn):
     update_product_score(conn, pid, 0.85)
     rows = get_unseen_products(conn)
     assert rows[0]["score"] == 0.85
+
+
+def test_rerate_product_like_to_dislike(conn):
+    pid = insert_product(conn, sample_product())
+    rate_product(conn, pid, "like")
+    rate_product(conn, pid, "dislike")
+    liked = get_liked_products(conn)
+    assert len(liked) == 0

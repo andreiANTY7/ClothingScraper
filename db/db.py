@@ -8,6 +8,7 @@ def init_db(db_path: str) -> sqlite3.Connection:
     conn = sqlite3.connect(db_path, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA foreign_keys=ON")
     with open(_SCHEMA) as f:
         conn.executescript(f.read())
     conn.commit()
@@ -44,7 +45,6 @@ def rate_product(conn: sqlite3.Connection, product_id: int, rating: str) -> None
         "INSERT OR REPLACE INTO ratings (product_id, rating) VALUES (?, ?)",
         (product_id, rating),
     )
-    conn.execute("UPDATE products SET seen = 1 WHERE id = ?", (product_id,))
     conn.commit()
 
 
