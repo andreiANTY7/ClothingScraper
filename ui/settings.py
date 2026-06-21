@@ -55,13 +55,22 @@ def render(conn) -> None:
     st.subheader("Site-uri B2B — Autentificare")
 
     seeds = list_seeds()
-    for seed in seeds:
+    from db.db import get_approved_discovered_sites
+    from scraper.runner import discovered_site_to_config
+    approved_discovered = get_approved_discovered_sites(conn)
+    discovered_configs = [discovered_site_to_config(s) for s in approved_discovered
+                          if s.get("requires_login")]
+    all_site_configs = seeds + discovered_configs
+
+    for seed in all_site_configs:
         name = seed["name"]
         display = seed["display_name"]
         logged_in = has_session(name)
-        col1, col2 = st.columns([3, 1])
+        login_url = seed.get("login_url", "")
+        col1, col2, col3 = st.columns([3, 1, 1])
         col1.markdown(f"**{display}** — {'✅ Sesiune activă' if logged_in else '❌ Neautentificat'}")
-        if col2.button("Login", key=f"login_{name}"):
+        login_url = col2.text_input("Login URL", value=login_url, key=f"lurl_{name}", label_visibility="collapsed")
+        if col3.button("Login", key=f"login_{name}"):
             with st.spinner(f"Deschid browserul pentru {display}..."):
-                run_login(name, seed["login_url"])
+                run_login(name, login_url)
             st.rerun()
