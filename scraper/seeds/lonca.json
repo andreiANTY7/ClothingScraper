@@ -1,0 +1,11 @@
+{
+  "name": "lonca",
+  "display_name": "Lonca",
+  "base_url": "https://lonca.co",
+  "login_url": "https://lonca.co/login",
+  "requires_login": true,
+  "men_listing_urls": [
+    "https://lonca.co/vendors/p-men-apparel"
+  ],
+  "product_link_selector": "a[href*='/product'], .product-item a, .product-card a"
+}

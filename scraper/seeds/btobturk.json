@@ -1,0 +1,15 @@
+{
+  "name": "btobturk",
+  "display_name": "BtoBTurk",
+  "base_url": "https://www.btobturk.com",
+  "login_url": "https://www.btobturk.com/en/login",
+  "requires_login": true,
+  "men_listing_urls": [
+    "https://www.btobturk.com/en/man/clothing/shirt",
+    "https://www.btobturk.com/en/man/clothing/jeans",
+    "https://www.btobturk.com/en/man/clothing/sweatshirt",
+    "https://www.btobturk.com/en/man/clothing/pants",
+    "https://www.btobturk.com/en/man/clothing/coat"
+  ],
+  "product_link_selector": "a.product-link, .product-card a, a[href*='/product/']"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "italianmoda",
+  "display_name": "ItalianModa",
+  "base_url": "https://m.italianmoda.com",
+  "login_url": "https://m.italianmoda.com/login",
+  "requires_login": false,
+  "men_listing_urls": [
+    "https://m.italianmoda.com/privatelabel/clothing/men",
+    "https://m.italianmoda.com/products/clothing/men"
+  ],
+  "product_link_selector": "a[href*='/storefronts/'], a.product-link, .item a"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "griffati",
+  "display_name": "Griffati B2B",
+  "base_url": "https://www.griffati.com",
+  "login_url": "https://www.griffati.com/en/login",
+  "requires_login": true,
+  "men_listing_urls": [
+    "https://www.griffati.com/en/catalog/clothing/men"
+  ],
+  "product_link_selector": "a.product-link, .product-box a, a[href*='/en/catalog/']"
+}

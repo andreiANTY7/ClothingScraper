@@ -1,0 +1,13 @@
+{
+  "name": "forakc",
+  "display_name": "4AKC Menswear",
+  "base_url": "https://4akcwholesale.com",
+  "login_url": "https://4akcwholesale.com/account/login",
+  "requires_login": true,
+  "men_listing_urls": [
+    "https://4akcwholesale.com/turkey-menswear/tops",
+    "https://4akcwholesale.com/turkey-menswear/bottoms",
+    "https://4akcwholesale.com/turkey-menswear/tops/shirts"
+  ],
+  "product_link_selector": "a.product-link, .product-item a, a[href*='/turkey-menswear/']"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "brandsdistribution",
+  "display_name": "Brands Distribution",
+  "base_url": "https://www.brandsdistribution.com",
+  "login_url": "https://www.brandsdistribution.com/en/login",
+  "requires_login": true,
+  "men_listing_urls": [
+    "https://www.brandsdistribution.com/en/catalog/clothing/men"
+  ],
+  "product_link_selector": "a.product-link, .product-item a, a[href*='/en/catalog/']"
+}
