@@ -1,6 +1,7 @@
 import asyncio
 import json
 from pathlib import Path
+from urllib.parse import urlparse
 from playwright.async_api import async_playwright
 from anthropic import Anthropic
 
@@ -84,9 +85,6 @@ async def scrape_site(site_config: dict, conn, anthropic_client: Anthropic,
         await ctx.close()
 
     return inserted
-
-
-from urllib.parse import urlparse
 
 
 def discovered_site_to_config(site: dict) -> dict:
