@@ -1,6 +1,17 @@
+import subprocess
+import sys
+import os
 import streamlit as st
 from pathlib import Path
 from db.db import init_db
+
+# Install Playwright browser once per container (cloud environments)
+_pw_marker = Path.home() / ".cache" / "ms-playwright" / ".installed"
+if not _pw_marker.exists():
+    subprocess.run(
+        [sys.executable, "-m", "playwright", "install", "chromium"],
+        capture_output=True,
+    )
 
 st.set_page_config(
     page_title="Brand Scraper",
