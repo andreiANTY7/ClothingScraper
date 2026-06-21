@@ -27,7 +27,7 @@ async def _find_product_links(page, base_url: str) -> list[str]:
                 break
         except Exception:
             continue
-    return [l for l in links if l.startswith("http")][:5]
+    return [link for link in links if link.startswith("http")][:5]
 
 
 async def validate_site(
@@ -58,43 +58,43 @@ async def validate_site(
         page = await ctx.new_page()
 
         try:
-            await page.goto(base_url, timeout=20000, wait_until="domcontentloaded")
-        except Exception:
-            await browser.close()
-            return {
-                "is_valid": False,
-                "product_count": 0,
-                "preview_products": [],
-                "requires_login": False,
-            }
-
-        if any(kw in page.url for kw in ["/login", "/signin", "/account"]):
-            requires_login = True
-
-        product_links = await _find_product_links(page, base_url)
-
-        for link in product_links[:3]:
             try:
-                await page.goto(link, timeout=15000, wait_until="domcontentloaded")
-                html = await page.content()
+                await page.goto(base_url, timeout=20000, wait_until="domcontentloaded")
             except Exception:
-                continue
+                return {
+                    "is_valid": False,
+                    "product_count": 0,
+                    "preview_products": [],
+                    "requires_login": False,
+                }
 
-            product = extract_product_from_html(html, link, anthropic_client)
-            if product is None:
-                continue
-            if not is_streetwear_men(product, include_kw, exclude_kw):
-                continue
+            if any(kw in page.url for kw in ["/login", "/signin", "/account"]):
+                requires_login = True
 
-            preview_products.append({
-                "name": product.get("name", ""),
-                "image_url": product.get("image_url"),
-                "price_eur": product.get("price_eur"),
-                "category": product.get("category"),
-                "product_url": link,
-            })
+            product_links = await _find_product_links(page, base_url)
 
-        await browser.close()
+            for link in product_links[:3]:
+                try:
+                    await page.goto(link, timeout=15000, wait_until="domcontentloaded")
+                    html = await page.content()
+                except Exception:
+                    continue
+
+                product = extract_product_from_html(html, link, anthropic_client)
+                if product is None:
+                    continue
+                if not is_streetwear_men(product, include_kw, exclude_kw):
+                    continue
+
+                preview_products.append({
+                    "name": product.get("name", ""),
+                    "image_url": product.get("image_url"),
+                    "price_eur": product.get("price_eur"),
+                    "category": product.get("category"),
+                    "product_url": link,
+                })
+        finally:
+            await browser.close()
 
     return {
         "is_valid": len(preview_products) >= 1,
