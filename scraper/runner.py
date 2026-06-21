@@ -84,3 +84,25 @@ async def scrape_site(site_config: dict, conn, anthropic_client: Anthropic,
         await ctx.close()
 
     return inserted
+
+
+from urllib.parse import urlparse
+
+
+def discovered_site_to_config(site: dict) -> dict:
+    """Generate a runner-compatible config dict from a discovered_sites DB row."""
+    url = site["url"]
+    netloc = urlparse(url).netloc
+    safe_name = netloc.replace("www.", "").replace(".", "_").replace("-", "_")
+    return {
+        "name": safe_name,
+        "display_name": f"🌐 {netloc.replace('www.', '')}",
+        "base_url": url,
+        "login_url": f"{url}/login",
+        "requires_login": bool(site.get("requires_login")),
+        "men_listing_urls": [url],
+        "product_link_selector": (
+            "a[href*='/product'], a[href*='/products'], a[href*='/item'], "
+            ".product-card a, .product-item a, a.product-link"
+        ),
+    }
