@@ -1,0 +1,22 @@
+{
+  "anthropic_api_key": "YOUR_KEY_HERE",
+  "eur_ron_rate": 5.0,
+  "transport_lei": 10,
+  "packaging_lei": 7,
+  "platform_fee_pct": 2.5,
+  "ads_per_day_lei": 200,
+  "partners": {
+    "user": 0.40,
+    "trex": 0.30,
+    "partner2": 0.30
+  },
+  "streetwear_include_keywords": [
+    "t-shirt", "tshirt", "hoodie", "sweatshirt", "jacket", "pants",
+    "cargo", "jogger", "shorts", "overshirt", "bomber", "tracksuit",
+    "tricou", "hanorac", "pantalon", "geaca", "bluza"
+  ],
+  "streetwear_exclude_keywords": [
+    "socks", "underwear", "briefs", "boxer", "bra", "lingerie",
+    "suit", "tie", "formal", "dress shirt", "sosete", "chiloti"
+  ]
+}
