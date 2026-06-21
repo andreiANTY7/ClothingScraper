@@ -36,10 +36,19 @@ def search_candidate_sites(max_results: int = 5) -> list[str]:
     return list(domains)
 
 
+def _domains_overlap(url_a: str, url_b: str) -> bool:
+    """True if two URLs share the same effective domain (ignoring www prefix)."""
+    a = urlparse(url_a).netloc.lstrip("www.").rstrip(".")
+    b = urlparse(url_b).netloc.lstrip("www.").rstrip(".")
+    if not a or not b:
+        return False
+    return a == b or a.endswith("." + b) or b.endswith("." + a)
+
+
 def filter_known_sites(candidate_urls: list[str], known_urls: set[str]) -> list[str]:
-    """Remove URLs whose domain overlaps with any known URL."""
+    """Remove candidates whose domain overlaps with any known URL."""
     result = []
     for url in candidate_urls:
-        if not any(url in known or known in url for known in known_urls):
+        if not any(_domains_overlap(url, known) for known in known_urls):
             result.append(url)
     return result

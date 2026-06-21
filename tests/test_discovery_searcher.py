@@ -39,6 +39,14 @@ def test_filter_known_sites_empty_known():
     assert set(result) == {"https://a.com", "https://b.com"}
 
 
+def test_filter_known_sites_no_false_positive_on_partial_domain():
+    # "a.com" should NOT block "abc.com" — only true subdomain/exact matches should block
+    candidates = ["https://abc.com"]
+    known = {"https://a.com"}
+    result = filter_known_sites(candidates, known)
+    assert result == ["https://abc.com"]
+
+
 def test_search_candidate_sites_calls_ddgs(mocker):
     mock_ddgs_instance = mocker.MagicMock()
     mock_ddgs_instance.__enter__ = mocker.MagicMock(return_value=mock_ddgs_instance)
