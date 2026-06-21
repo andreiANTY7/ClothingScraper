@@ -1,5 +1,5 @@
 {
-  "anthropic_api_key": "YOUR_KEY_HERE",
+  "anthropic_api_key": "",
   "eur_ron_rate": 5.0,
   "transport_lei": 10,
   "packaging_lei": 7,

@@ -1,18 +1,13 @@
 import streamlit as st
 import pandas as pd
-import json
 from pathlib import Path
 from datetime import datetime
 
 from db.db import get_saved_products, update_saved_product_pricing
+from utils.config import load_config as _cfg
 
-CONFIG_PATH = Path(__file__).parent.parent / "config.json"
 EXPORTS_DIR = Path(__file__).parent.parent / "exports"
 EXPORTS_DIR.mkdir(exist_ok=True)
-
-
-def _cfg() -> dict:
-    return json.loads(CONFIG_PATH.read_text())
 
 
 def _calc(saved: dict, cfg: dict) -> dict:

@@ -1,7 +1,4 @@
 import streamlit as st
-import json
-from pathlib import Path
-
 from anthropic import Anthropic
 
 from db.db import (
@@ -10,12 +7,7 @@ from db.db import (
 )
 from discovery.scheduler import run_discovery
 from discovery.validator import run_validate_site
-
-CONFIG_PATH = Path(__file__).parent.parent / "config.json"
-
-
-def _cfg() -> dict:
-    return json.loads(CONFIG_PATH.read_text())
+from utils.config import load_config as _cfg
 
 
 def render(conn) -> None:

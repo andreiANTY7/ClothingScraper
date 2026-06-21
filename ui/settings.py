@@ -1,18 +1,7 @@
 import streamlit as st
-import json
-from pathlib import Path
 from scraper.session_manager import has_session, run_login
 from scraper.runner import list_seeds
-
-CONFIG_PATH = Path(__file__).parent.parent / "config.json"
-
-
-def load_config() -> dict:
-    return json.loads(CONFIG_PATH.read_text())
-
-
-def save_config(cfg: dict) -> None:
-    CONFIG_PATH.write_text(json.dumps(cfg, indent=2, ensure_ascii=False))
+from utils.config import load_config, save_config
 
 
 def render(conn) -> None:
