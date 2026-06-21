@@ -1,7 +1,10 @@
+import os
 import streamlit as st
 from scraper.session_manager import has_session, run_login
 from scraper.runner import list_seeds
 from utils.config import load_config, save_config
+
+_IS_CLOUD = os.path.exists("/mount/src")
 
 
 def render(conn) -> None:
@@ -42,6 +45,9 @@ def render(conn) -> None:
 
     st.divider()
     st.subheader("Site-uri B2B — Autentificare")
+    if _IS_CLOUD:
+        st.info("🌐 Login-ul cu browser nu funcționează pe cloud. Rulează aplicația local pentru a salva sesiuni B2B.")
+        return
 
     seeds = list_seeds()
     from db.db import get_approved_discovered_sites
