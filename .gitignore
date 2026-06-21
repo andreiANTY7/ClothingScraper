@@ -1,6 +1,7 @@
 sessions/
 exports/
 brand_scraper.db
+config.json
 __pycache__/
 *.pyc
 .pytest_cache/
