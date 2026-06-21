@@ -24,7 +24,10 @@ def render(conn) -> None:
 
     with col_scrape:
         st.subheader("Scrape site nou")
-        seeds = list_seeds()
+        from db.db import get_approved_discovered_sites
+        from scraper.runner import discovered_site_to_config
+        approved_discovered = get_approved_discovered_sites(conn)
+        seeds = list_seeds() + [discovered_site_to_config(s) for s in approved_discovered]
         site_names = [s["display_name"] for s in seeds]
         chosen_display = st.selectbox("Site", site_names)
         chosen_seed = next(s for s in seeds if s["display_name"] == chosen_display)

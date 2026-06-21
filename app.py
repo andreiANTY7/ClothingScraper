@@ -21,7 +21,7 @@ conn = get_db()
 
 page = st.sidebar.radio(
     "Navigare",
-    ["🔍 Browse", "⭐ Salvate & Prețuri", "⚙️ Setări"],
+    ["🔍 Browse", "⭐ Salvate & Prețuri", "🌐 Descoperire", "⚙️ Setări"],
     label_visibility="collapsed",
 )
 
@@ -37,6 +37,9 @@ if page == "🔍 Browse":
     render(conn)
 elif page == "⭐ Salvate & Prețuri":
     from ui.saved import render
+    render(conn)
+elif page == "🌐 Descoperire":
+    from ui.discover import render
     render(conn)
 elif page == "⚙️ Setări":
     from ui.settings import render
