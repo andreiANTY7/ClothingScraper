@@ -30,3 +30,25 @@ CREATE TABLE IF NOT EXISTS saved_products (
     notes TEXT,
     saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS discovered_sites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    url TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending'
+        CHECK(status IN ('pending','approved','rejected','blacklisted')),
+    product_count INTEGER DEFAULT 0,
+    requires_login INTEGER DEFAULT 0,
+    discovered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reviewed_at TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS site_preview_products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    site_url TEXT NOT NULL,
+    name TEXT,
+    image_url TEXT,
+    price_eur REAL,
+    category TEXT,
+    product_url TEXT UNIQUE,
+    FOREIGN KEY(site_url) REFERENCES discovered_sites(url)
+);

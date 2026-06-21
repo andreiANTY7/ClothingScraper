@@ -103,3 +103,73 @@ def update_product_score(conn: sqlite3.Connection, product_id: int, score: float
 def get_all_products(conn: sqlite3.Connection) -> list[dict]:
     rows = conn.execute("SELECT * FROM products ORDER BY score DESC").fetchall()
     return [dict(r) for r in rows]
+
+
+def insert_discovered_site(
+    conn: sqlite3.Connection, url: str,
+    product_count: int = 0, requires_login: bool = False
+) -> int | None:
+    cur = conn.execute(
+        """INSERT OR IGNORE INTO discovered_sites (url, product_count, requires_login)
+           VALUES (?, ?, ?)""",
+        (url, product_count, int(requires_login)),
+    )
+    conn.commit()
+    # If a row was actually inserted, cur.rowcount will be 1; otherwise it's 0
+    if cur.rowcount > 0:
+        return cur.lastrowid
+    return None
+
+
+def get_pending_discovered_sites(conn: sqlite3.Connection) -> list[dict]:
+    rows = conn.execute(
+        "SELECT * FROM discovered_sites WHERE status = 'pending' ORDER BY discovered_at DESC"
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_approved_discovered_sites(conn: sqlite3.Connection) -> list[dict]:
+    rows = conn.execute(
+        "SELECT * FROM discovered_sites WHERE status = 'approved' ORDER BY discovered_at DESC"
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def update_discovered_site_status(
+    conn: sqlite3.Connection, site_id: int, status: str
+) -> None:
+    conn.execute(
+        """UPDATE discovered_sites
+           SET status = ?, reviewed_at = CURRENT_TIMESTAMP
+           WHERE id = ?""",
+        (status, site_id),
+    )
+    conn.commit()
+
+
+def insert_preview_product(
+    conn: sqlite3.Connection, site_url: str, product: dict
+) -> None:
+    conn.execute(
+        """INSERT OR IGNORE INTO site_preview_products
+           (site_url, name, image_url, price_eur, category, product_url)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (site_url, product.get("name"), product.get("image_url"),
+         product.get("price_eur"), product.get("category"),
+         product.get("product_url")),
+    )
+    conn.commit()
+
+
+def get_preview_products(conn: sqlite3.Connection, site_url: str) -> list[dict]:
+    rows = conn.execute(
+        "SELECT * FROM site_preview_products WHERE site_url = ?",
+        (site_url,),
+    ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def get_all_known_urls(conn: sqlite3.Connection) -> set[str]:
+    """Return base URLs of all sites ever processed (pending + reviewed)."""
+    rows = conn.execute("SELECT url FROM discovered_sites").fetchall()
+    return {r["url"] for r in rows}
